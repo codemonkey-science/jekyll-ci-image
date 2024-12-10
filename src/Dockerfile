@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # Create a non-root user with a home directory
-RUN useradd -m ansible
+RUN useradd -m jekyll
 
 # Install system dependencies as root
 RUN apt-get update && \
@@ -12,7 +12,7 @@ RUN apt-get update && \
     libjemalloc-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Set up virtual environment and install Ansible as the non-root user
+# Run container as the non-root user
 USER jekyll
 
 # Set the working directory to the non-root user's home directory
