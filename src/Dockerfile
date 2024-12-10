@@ -1,8 +1,12 @@
 # Use the Ubuntu base image
 FROM ubuntu:22.04
 
-# Create a non-root user with a home directory
-RUN useradd -m jekyll
+# Create a non-root user with a home directory and sudo access
+RUN useradd -m jekyll && \
+    apt-get update && \
+    apt-get install -y sudo && \
+    echo "jekyll ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jekyll && \
+    chmod 0440 /etc/sudoers.d/jekyll
 
 # Create and set permissions for GitHub Actions workspace directory
 RUN mkdir -p /__w && \
@@ -19,8 +23,8 @@ RUN apt-get update && \
     libjemalloc-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Run container as the non-root user
+# Switch to non-root user
 USER jekyll
 
-# Set the working directory to the GitHub Actions workspace
-WORKDIR /__w
+# Set working directory to jekyll's home
+WORKDIR /home/jekyll
