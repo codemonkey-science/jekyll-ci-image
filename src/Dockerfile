@@ -4,6 +4,16 @@ FROM ubuntu:22.04
 # Create a non-root user with a home directory
 RUN useradd -m jekyll
 
+# Create and set permissions for GitHub Actions workspace directory
+RUN mkdir -p /__w && \
+    chown -R jekyll:jekyll /__w && \
+    chmod -R 777 /__w
+
+# Create and set permissions for temp directories
+RUN mkdir -p /__w/_temp && \
+    chown -R jekyll:jekyll /__w/_temp && \
+    chmod -R 777 /__w/_temp
+
 # Install system dependencies as root
 RUN apt-get update && \
     apt-get install -y libyaml-dev build-essential zlib1g-dev libssl-dev \ 
@@ -15,5 +25,5 @@ RUN apt-get update && \
 # Run container as the non-root user
 USER jekyll
 
-# Set the working directory to the non-root user's home directory
-WORKDIR /home/jekyll
+# Set the working directory to the GitHub Actions workspace
+WORKDIR /__w
