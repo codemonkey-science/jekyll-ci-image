@@ -80,3 +80,10 @@ jobs:
                 "https://api.github.com/orgs/${{ github.repository_owner }}/packages/container/jekyll-ci-image/versions/$version"
             fi
           done
+  remove-runner-images:
+    runs-on: self-hosted
+    needs: build-and-push
+    steps:
+      - name: Remove runner images
+        run: |
+          docker rmi $(docker images --filter=reference='*jekyll-ci-image*' -q) 2>/dev/null || true
