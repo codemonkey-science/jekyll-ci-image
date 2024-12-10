@@ -6,13 +6,10 @@ RUN useradd -m jekyll
 
 # Create and set permissions for GitHub Actions workspace directory
 RUN mkdir -p /__w && \
+    mkdir -p /__w/_temp/_runner_file_commands && \
+    mkdir -p /__w/_actions && \
     chown -R jekyll:jekyll /__w && \
     chmod -R 777 /__w
-
-# Create and set permissions for temp directories
-RUN mkdir -p /__w/_temp && \
-    chown -R jekyll:jekyll /__w/_temp && \
-    chmod -R 777 /__w/_temp
 
 # Install system dependencies as root
 RUN apt-get update && \
