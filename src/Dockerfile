@@ -1,19 +1,12 @@
 # Use the Ubuntu base image
 FROM ubuntu:22.04
 
-# Create a non-root user with a home directory and sudo access
+# Create a non-root user with sudo access
 RUN useradd -m jekyll && \
     apt-get update && \
     apt-get install -y sudo && \
     echo "jekyll ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/jekyll && \
     chmod 0440 /etc/sudoers.d/jekyll
-
-# Create and set permissions for GitHub Actions workspace directory
-RUN mkdir -p /__w && \
-    mkdir -p /__w/_temp/_runner_file_commands && \
-    mkdir -p /__w/_actions && \
-    chown -R jekyll:jekyll /__w && \
-    chmod -R 777 /__w
 
 # Install system dependencies as root
 RUN apt-get update && \
