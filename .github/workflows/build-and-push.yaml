@@ -15,8 +15,7 @@ jobs:
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
       # Add options for Docker group access
-      options: |
-        --group-add $(getent group docker | cut -d: -f3)
+      options: --group-add 999
 
     permissions:
       contents: read
